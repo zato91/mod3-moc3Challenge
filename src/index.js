@@ -41,7 +41,7 @@ function editDog(dog){
         const name = dogForm.name.value 
         const breed = dogForm.breed.value
         const sex = dogForm.sex.value 
-         const bodyObject = {name, breed, sex}
+         
 
         const options = {
                 method: "PATCH",
@@ -49,7 +49,7 @@ function editDog(dog){
                     "content-type": "application/json",
                     "accept": "application/json",
                 },
-                body: JSON.stringify(bodyObject)
+                body: JSON.stringify({name, breed, sex})
 
         }
 
