@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-const URL = 'http://localhost:3000/dogs';
+const URL = 'http://localhost:3000/dogs/';
 
 const fetchDogs = () => {
     fetch(URL)
@@ -19,7 +19,7 @@ function renderDogs(dog){
     dogTable.appendChild(dogTr);
     let button = document.getElementById(dog.id);
     button.addEventListener('click', (e) => {
-        console.log(e.target)
+        
         
         editDog(dog)
      })
@@ -29,9 +29,35 @@ function editDog(dog){
     
      let dogForm = document.getElementById('dog-form');
      
-    dogForm.name.innerText = "${dog.name}";  
-    // dogForm.breed.innerText = "hello"
-    // dogForm.sex.innerText = "hello" ;
+    dogForm.name.value = dog.name;  
+    dogForm.breed.value = dog.breed;
+    dogForm.sex.value = dog.sex ;
+    let top = dog.id;
+    dogForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const options = {
+                method: "PATCH",
+                headers: {
+                    "content-type": "application/json",
+                    "accept": "application/json",
+                },
+                body: JSON.stringify({
+                    name: dogForm.name.value,
+                    breed: dogForm.breed.value,
+                    sex: dogForm.sex.value,
+                })
+
+        }
+
+
+
+        fetch(URL + top, options)
+            .then(resp => resp.json())
+            .then(dogs =>  renderDogs(dogs) )  
+        
+     })
+
 }
  
 })
